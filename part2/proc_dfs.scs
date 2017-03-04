@@ -1,0 +1,258 @@
+scp_program -> proc_dfs (*	
+	-> rrel_params: ... (*
+		-> rrel_1: rrel_in: _graph;;
+		-> rrel_2: rrel_in: _visit;;
+		-> rrel_3: rrel_in: _rrel_parent;;
+		-> rrel_4: rrel_in: _t_node;;
+		-> rrel_5: rrel_in: _vertex;;
+		-> rrel_6: rrel_in: _max_cycle;;
+	*);;
+
+	-> rrel_operators: ... (*
+
+		-> rrel_init: ..proc_dfs_operator1 (*
+			<- genElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _visit;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc1;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _t_node;;
+
+			=> nrel_goto: ..proc_dfs_operator2;;					
+		*);;
+
+		-> ..proc_dfs_operator2 (*
+			<- genElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _t_node;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _vertex;;
+
+			=> nrel_goto: ..proc_dfs_operator3;;					
+		*);;
+
+		-> ..proc_dfs_operator3 (*
+			<- genElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _rrel_parent;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc3;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _arc2;;
+
+			=> nrel_goto: ..proc_dfs_find_operator1;;					
+		*);;
+
+		-> ..proc_dfs_find_operator1 (*
+			<- searchSetStr5;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _graph;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_assign: rrel_scp_var: _el3;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_const: rrel_edge;;
+		
+			->rrel_set_3: rrel_assign: rrel_scp_var: _edges_set;;
+			=> nrel_then: ..proc_dfs_find_operator2;;		
+		 	=> nrel_else: ..proc_dfs_find_operator13;;						
+		*);;
+
+		-> ..proc_dfs_find_operator2 (*
+			<- genEl;;
+			-> rrel_1: rrel_assign: rrel_const: rrel_node: rrel_scp_var: _printed_vertexes;;
+
+			=> nrel_goto: ..proc_dfs_find_operator3;;
+		*);;
+
+		-> ..proc_dfs_find_operator3 (*
+			<- searchElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _edges_set;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_assign: rrel_scp_var: _cur_edge;;
+
+			=> nrel_then: ..proc_dfs_find_operator4;;
+			=> nrel_else: ..proc_dfs_find_operator13;; 								
+		*);;
+
+		-> ..proc_dfs_find_operator4 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: rrel_erase: _arc2;;
+
+			=> nrel_goto: ..proc_dfs_find_operator5;;
+		*);;
+
+		-> ..proc_dfs_find_operator5 (*
+			<- call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_get_edge_vertexes;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _cur_edge;;
+				-> rrel_2: rrel_assign: rrel_scp_var: _v1;;
+				-> rrel_3: rrel_assign: rrel_scp_var: _v2;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_dfs_find_operator6;;
+		*);;	
+
+		-> ..proc_dfs_find_operator6 (*
+			<- waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_dfs_find_operator7;;
+		*);;
+
+		-> ..proc_dfs_find_operator7 (*
+			<- ifCoin;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _v1;;
+			-> rrel_2: rrel_fixed: rrel_scp_var: _t_node;;
+			
+			=> nrel_then: ..proc_dfs_find_operator9;;
+			=> nrel_else: ..proc_dfs_find_operator11;;												
+		*);;
+
+		-> ..proc_dfs_find_operator9 (*
+			<-searchElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _visit;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _v2;;
+
+			=> nrel_then: ..proc_dfs_find_operator10_3;; 							
+		 	=> nrel_else: ..proc_dfs_find_operator10_1;;					
+		*);;
+
+		-> ..proc_dfs_find_operator10_1 (*
+			<-call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_dfs;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _graph;;
+				-> rrel_2: rrel_fixed: rrel_scp_var: _visit;;
+				-> rrel_3: rrel_fixed: rrel_scp_var: _rrel_parent;;
+				-> rrel_4: rrel_fixed: rrel_scp_var: _v2;;
+				-> rrel_5: rrel_fixed: rrel_scp_var: _t_node;;
+				-> rrel_6: rrel_fixed: rrel_scp_var: _max_cycle;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_dfs_find_operator10_2;;
+		*);;
+
+		-> ..proc_dfs_find_operator10_2 (*
+			<- waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_dfs_find_operator11;;												
+		*);;
+
+		-> ..proc_dfs_find_operator10_3 (*
+			<-contAssign;;
+			-> rrel_1: rrel_link: rrel_assign: rrel_scp_var: _kol;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: [0];;
+
+			=> nrel_goto: ..proc_dfs_find_operator10_4;;		
+		*);;
+
+		-> ..proc_dfs_find_operator10_4 (*
+			<-call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_cycle_found;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _graph;;
+				-> rrel_2: rrel_fixed: rrel_scp_var: _visit;;
+				-> rrel_3: rrel_fixed: rrel_scp_var: _rrel_parent;;
+				-> rrel_4: rrel_fixed: rrel_scp_var: _t_node;;
+				-> rrel_5: rrel_fixed: rrel_scp_var: _v2;;
+				-> rrel_6: rrel_fixed: rrel_scp_var: _max_cycle;;
+				-> rrel_7: rrel_fixed: rrel_scp_var: _kol;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_dfs_find_operator10_5;;
+		*);;
+
+		-> ..proc_dfs_find_operator10_5 (*
+			<- waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_dfs_find_operator11;;						
+		*);;
+
+		-> ..proc_dfs_find_operator11 (*
+			<- genElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _printed_vertexes;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _v1;;
+
+			=> nrel_goto: ..proc_dfs_find_operator12;;
+		*);;
+
+		-> ..proc_dfs_find_operator12 (*
+			<- genElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _printed_vertexes;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _v2;;
+
+			=> nrel_goto: ..proc_dfs_find_operator3;;
+		*);;
+
+		-> ..proc_dfs_find_operator13 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: rrel_erase: _edges_set;;
+
+			=> nrel_goto: ..proc_dfs_find_operator14;;
+		*);;
+
+		-> ..proc_dfs_find_operator14 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: rrel_erase: _printed_vertexes;;
+
+			=> nrel_goto: ..proc_dfs_find_operator15;;
+		*);;
+
+		-> ..proc_dfs_find_operator15 (*
+			<- searchElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _t_node;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _vertex;;
+
+			=> nrel_then: ..proc_dfs_find_operator16;;
+			=> nrel_else: ..proc_dfs_operator_return;;
+		*);;
+
+		-> ..proc_dfs_find_operator16 (*
+			<- searchElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _rrel_parent;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc3;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _arc2;;
+
+			=> nrel_then: ..proc_dfs_find_operator17;;
+			=> nrel_else: ..proc_dfs_operator_return;;
+		*);;
+
+		-> ..proc_dfs_find_operator17 (*
+			<- searchElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _visit;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc1;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _t_node;;
+
+			=> nrel_then: ..proc_dfs_find_operator18;;
+			=> nrel_else: ..proc_dfs_operator_return;;
+		*);;
+
+		-> ..proc_dfs_find_operator18 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: rrel_erase: _arc3;;
+
+			=> nrel_goto: ..proc_dfs_find_operator19;;
+		*);;
+
+		-> ..proc_dfs_find_operator19 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: rrel_erase: _arc2;;
+
+			=> nrel_goto: ..proc_dfs_find_operator20;;
+		*);;
+
+		-> ..proc_dfs_find_operator20 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: rrel_erase: _arc1;;
+
+			=> nrel_goto: ..proc_dfs_operator_return;;
+		*);;
+
+		-> ..proc_dfs_operator_return (*
+			<- return;;
+		*);;
+	*);;
+*);;

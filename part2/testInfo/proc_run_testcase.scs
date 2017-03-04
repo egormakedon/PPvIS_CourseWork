@@ -1,0 +1,128 @@
+scp_program -> proc_run_testcase (*
+	
+	-> rrel_params: ... (*
+		-> rrel_1: rrel_in: _graph;;
+		-> rrel_2: rrel_in: _test_number;;
+	*);;
+
+	-> rrel_operators: ... (*
+
+	-> rrel_init: ..proc_print_test_start (*
+			<- print;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: [---------------Test];; 		
+		
+			=> nrel_goto: ..proc_print_test_number;;	
+		*);;
+
+	-> ..proc_print_test_number (*
+			<- printNl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _test_number;; 		
+		
+			=> nrel_goto: ..proc_visit_operator_genEl;;
+		*);;
+	
+	-> ..proc_visit_operator_genEl (*
+			<- genEl;;
+			-> rrel_1: rrel_assign: rrel_const: rrel_node: rrel_scp_var: _visit;;
+						
+			=> nrel_goto: ..proc_rrel_parent_operator_genEl;;
+		*);;
+	
+	-> ..proc_rrel_parent_operator_genEl (*
+			<- genEl;;
+			-> rrel_1: rrel_assign: rrel_const: rrel_node: rrel_scp_var: _rrel_parent;;
+						
+			=> nrel_goto: ..proc_max_cycle_operator;;
+		*);;
+
+	-> ..proc_max_cycle_operator (*
+			<-contAssign;;
+			-> rrel_1: rrel_link: rrel_assign: rrel_scp_var: _max_cycle;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: [-1];;
+
+			=> nrel_goto: ..proc_print_graph_operator;;
+		*);;
+
+	-> ..proc_print_graph_operator (*
+			<- call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_print_graph;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _graph;;
+			*);; 
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;		
+		
+			=> nrel_goto: ..proc_print_graph_operator1;;	
+		*);;
+
+	-> ..proc_print_graph_operator1 (*
+			<- waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..circum_of_graph;;	
+		*);;
+
+	-> ..circum_of_graph (*
+			<- call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_circum_of_graph;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _graph;;
+				-> rrel_2: rrel_fixed: rrel_scp_var: _visit;;
+				-> rrel_3: rrel_fixed: rrel_scp_var: _rrel_parent;;
+				-> rrel_4: rrel_fixed: rrel_scp_var: _max_cycle;;
+			*);; 
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;		
+		
+			=> nrel_goto: ..circum_of_graph1;;	
+		*);;
+
+	-> ..circum_of_graph1 (*
+			<- waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..circum_of_graph_kol;;	
+		*);;
+
+	-> ..circum_of_graph_kol (*
+			<- contAdd;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _max_cycle;;
+			-> rrel_2: rrel_fixed: rrel_scp_var: _max_cycle;;
+			-> rrel_3: rrel_fixed: rrel_scp_const: [1];;
+
+			=> nrel_goto: ..circum_of_graph2;;
+
+	*);;
+
+	-> ..circum_of_graph2 (*
+			<- printNl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _max_cycle;;
+
+			=> nrel_goto: ..circum_of_graph_kol1;;	
+		*);;
+
+	-> ..circum_of_graph_kol1 (*
+			<- contSub;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _max_cycle;;
+			-> rrel_2: rrel_fixed: rrel_scp_var: _max_cycle;;
+			-> rrel_3: rrel_fixed: rrel_scp_const: [1];;
+
+			=> nrel_goto: ..proc_erase2;;
+
+	*);;
+
+	-> ..proc_erase2 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_erase: rrel_scp_var: _rrel_parent;;
+			=> nrel_goto: ..proc_erase3;;
+	*);;
+
+	-> ..proc_erase3 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_erase: rrel_scp_var: _visit;;
+			=> nrel_goto: ..proc_run_testcase_operator_return;;
+	*);;
+	
+	-> ..proc_run_testcase_operator_return (*
+			<- return;;
+		*);;
+	*);;
+*);;

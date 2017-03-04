@@ -1,0 +1,108 @@
+scp_program -> proc_circum_of_graph (*	
+	-> rrel_params: ... (*
+		-> rrel_1: rrel_in: _graph;;
+		-> rrel_2: rrel_in: _visit;;
+		-> rrel_3: rrel_in: _rrel_parent;;
+		-> rrel_4: rrel_in: _max_cycle;;
+	*);;
+
+	-> rrel_operators: ... (*
+
+		-> rrel_init: ..proc_circum_of_graph_operator1 (*
+			<- searchSetStr5;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _graph;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_assign: rrel_scp_var: _el3;;
+			-> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc4;;
+			-> rrel_5: rrel_fixed: rrel_scp_const: rrel_vertex;;
+		
+			-> rrel_set_3: rrel_assign: rrel_scp_var: _vertexes_set;;
+			=> nrel_then: ..proc_circum_of_graph_operator2;;		
+		 	=> nrel_else: ..proc_circum_of_graph_operator9;;									
+		*);;
+
+		-> ..proc_circum_of_graph_operator2 (*
+			<- genEl;;
+			-> rrel_1: rrel_assign: rrel_const: rrel_node: rrel_scp_var: _printed_vertexes;;
+
+			=> nrel_goto: ..proc_circum_of_graph_operator3;;
+		*);;
+
+		-> ..proc_circum_of_graph_operator3 (*
+			<- searchElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _vertexes_set;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_assign: rrel_scp_var: _cur_vertex;;
+
+			=> nrel_then: ..proc_circum_of_graph_operator4;;
+			=> nrel_else: ..proc_circum_of_graph_operator9;; 									
+		*);;
+
+		-> ..proc_circum_of_graph_operator4 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: rrel_erase: _arc2;;
+
+			=> nrel_goto: ..proc_circum_of_graph_operator5;;
+		*);;
+
+		-> ..proc_circum_of_graph_operator5 (*
+			<-searchElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _visit;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _cur_vertex;;
+
+			=> nrel_then: ..proc_circum_of_graph_operator7;;							
+		 	=> nrel_else: ..proc_circum_of_graph_operator6_1;;
+		*);;
+
+		-> ..proc_circum_of_graph_operator6_1 (*
+			<-call;;
+			-> rrel_1: rrel_fixed: rrel_scp_const: proc_dfs;;
+			-> rrel_2: rrel_fixed: rrel_scp_const: ... (*
+				-> rrel_1: rrel_fixed: rrel_scp_var: _graph;;
+				-> rrel_2: rrel_fixed: rrel_scp_var: _visit;;
+				-> rrel_3: rrel_fixed: rrel_scp_var: _rrel_parent;;
+				-> rrel_4: rrel_fixed: rrel_scp_var: _cur_vertex;;
+				-> rrel_5: rrel_fixed: rrel_scp_var: _cur_vertex;;
+				-> rrel_6: rrel_fixed: rrel_scp_var: _max_cycle;;
+			*);;
+			-> rrel_3: rrel_assign: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_circum_of_graph_operator6_2;;
+		*);;
+
+		-> ..proc_circum_of_graph_operator6_2 (*
+			<- waitReturn;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _descr;;
+
+			=> nrel_goto: ..proc_circum_of_graph_operator7;;				
+		*);;
+
+		-> ..proc_circum_of_graph_operator7 (*
+			<- genElStr3;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: _printed_vertexes;;
+			-> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: _arc2;;
+			-> rrel_3: rrel_fixed: rrel_scp_var: _cur_vertex;;
+
+			=> nrel_goto: ..proc_circum_of_graph_operator3;;
+		*);;
+
+		-> ..proc_circum_of_graph_operator9 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: rrel_erase: _vertexes_set;;
+
+			=> nrel_goto: ..proc_circum_of_graph_operator10;;
+		*);;
+
+		-> ..proc_circum_of_graph_operator10 (*
+			<- eraseEl;;
+			-> rrel_1: rrel_fixed: rrel_scp_var: rrel_erase: _printed_vertexes;;
+
+			=> nrel_goto: ..proc_circum_of_graph_operator_return;;
+		*);;
+
+		-> ..proc_circum_of_graph_operator_return (*
+			<- return;;
+		*);;			
+	*);;
+*);;
